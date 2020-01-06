@@ -1,0 +1,107 @@
+<div>
+  <form [formGroup]="editForm">
+    <div class="row">
+      <div class="col-4 text-center">
+        <h4>Update Images</h4>
+        <!-- <input-file fileLimit="4" formControlName="images">
+        </input-file> -->
+        <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+      </div>
+      <div class="col-8">
+        <div class="row">
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="name">
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <!-- Category Drop Down -->
+            <mat-form-field appearance="outline">
+              <mat-label>Choose Category</mat-label>
+              <mat-select formControlName="categoryId">
+                <mat-option (click)="addCategory()">
+                  <i class=" material-icons">add</i>
+                  Add New</mat-option>
+                <span *ngFor="let category of data.categories">
+                  <mat-option *ngIf="!category.hasSubCategory" [value]="category._id">{{category.name}}</mat-option>
+                </span>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label>Size</mat-label>
+              <mat-select formControlName="size" multiple>
+                <h5 class="add-button" (click)="addSize()">
+                  <i class=" material-icons">add</i>
+                  Add New</h5>
+                <mat-option *ngFor="let size of dropDowns?.sizes" [value]="size">{{size}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label>Color</mat-label>
+              <mat-select formControlName="color" multiple>
+                <h5 class="add-button" (click)="addColor()">
+                  <i class=" material-icons">add</i>
+                  Add New</h5>
+                <mat-option *ngFor="let color of dropDowns?.colors" [value]="color">{{color}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label>Old Price</mat-label>
+              <input matInput type="number" formControlName="oldPrice">
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label>New Price</mat-label>
+              <input matInput type="number" formControlName="newPrice">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label>Discount</mat-label>
+              <input matInput type="number" formControlName="discount">
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label>Availibility Count</mat-label>
+              <input matInput type="number" formControlName="availibilityCount">
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label>Weight</mat-label>
+              <input matInput type="number" formControlName="weight">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field appearance="outline">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col d-flex flex-row-reverse">
+            <button mat-raised-button (click)="addProduct()" type="button">Update</button>
+            &nbsp;
+            <button mat-raised-button (click)="close()" type="button">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

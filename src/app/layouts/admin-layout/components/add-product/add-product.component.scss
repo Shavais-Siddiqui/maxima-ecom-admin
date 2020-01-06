@@ -1,0 +1,20 @@
+::ng-deep .file-container{
+    height: 9rem !important;
+    width: 9rem !important;
+    .image-preview{
+        height: 9rem !important;
+        width: 9rem !important;
+            
+    }
+} 
+
+.add-button {
+    line-height: 2em;
+    cursor: pointer;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+i{
+    vertical-align:middle;
+  } 

@@ -1,0 +1,65 @@
+<ng-template [ngIf]="data.type == 'category'">
+  <form [formGroup]="categoryForm">
+    <div class="row">
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Choose Category</mat-label>
+        <mat-select formControlName="parentId">
+          <mat-option [value]="0">Parent</mat-option>
+          <span *ngFor="let category of data.categories">
+            <mat-option [value]="category._id">{{category.name}}</mat-option>
+          </span>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-checkbox formControlName="hasSubCategory">Has Childs?</mat-checkbox>
+    </div>
+    <div class="row">
+      <div class="col d-flex flex-row-reverse">
+        <button mat-raised-button (click)="addcategory()" type="button">Save</button>
+        &nbsp;
+        <button mat-raised-button (click)="close()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</ng-template>
+<ng-template [ngIf]="data.type == 'color'">
+  <form [formGroup]="colorForm">
+    <div class="row">
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Enter Color</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <div class="col d-flex flex-row-reverse">
+        <button mat-raised-button (click)="addColor()" type="button">Save</button>
+        &nbsp;
+        <button mat-raised-button (click)="close()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</ng-template>
+<ng-template [ngIf]="data.type == 'size'">
+  <form [formGroup]="sizeForm">
+    <div class="row">
+      <mat-form-field appearance="outline" class="full-width-field">
+        <mat-label>Enter Size</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <div class="col d-flex flex-row-reverse">
+        <button mat-raised-button (click)="addSize()" type="button">Save</button>
+        &nbsp;
+        <button mat-raised-button (click)="close()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</ng-template>
