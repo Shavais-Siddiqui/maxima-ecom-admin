@@ -115,7 +115,7 @@ export class ProductsComponent implements OnInit {
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '85%'
-    dialogConfig.height = '75%'
+    dialogConfig.height = '80%'
 
     dialogConfig.data = {
       categories: this.categories
@@ -136,12 +136,12 @@ export class ProductsComponent implements OnInit {
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '85%'
-    dialogConfig.height = '75%'
+    dialogConfig.height = '80%'
 
     dialogConfig.data = {
       categories: this.categories,
       product: product,
-      
+
     };
 
     let dialogRef = this.dialog.open(EditProductComponent, dialogConfig);
@@ -152,5 +152,4 @@ export class ProductsComponent implements OnInit {
       }
     });
   }
-
 }

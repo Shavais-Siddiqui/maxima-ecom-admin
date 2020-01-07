@@ -1,0 +1,17 @@
+.add-button {
+    line-height: 2em;
+    cursor: pointer;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+i{
+    vertical-align:middle;
+  }
+
+  ::ng-deep ngx-gallery-action {
+      i {
+        color: red !important;
+        font-size: 30px !important;
+      }
+  }

@@ -5,7 +5,22 @@
         <h4>Update Images</h4>
         <!-- <input-file fileLimit="4" formControlName="images">
         </input-file> -->
-        <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+        <div *ngIf="this.galleryImages.length > 0">
+          <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+          <!-- <input-file fileLimit="5" formControlName="images">
+          </input-file> -->
+        </div>
+
+        <!-- <div style="position: relative">
+          <button style="position: absolute; z-index: 2000;" (click)="actionBtn()">Action</button>
+          <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+          <input-file fileLimit="5" formControlName="images">
+        </input-file>
+        </div> -->
+
+        <!-- <div *ngIf = "this.galleryImages.length < 5">
+          
+        </div> -->
       </div>
       <div class="col-8">
         <div class="row">

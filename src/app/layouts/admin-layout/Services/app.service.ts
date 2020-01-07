@@ -21,6 +21,10 @@ export class AppService {
     return this.http.post(this.baseUrl + 'add-product', data);
   }
 
+  updateProduct(id, data) {
+    return this.http.patch(this.baseUrl + 'update-product/' + id, data);
+  }
+
   addCategory(data) {
     return this.http.post(this.baseUrl + 'add-category', data);
   }

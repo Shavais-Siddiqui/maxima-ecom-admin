@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from '@angu
 import { FormGroup, FormControl } from '@angular/forms';
 import { AppService } from '../../Services/app.service';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation, NgxGalleryImageSize, NgxGalleryAction } from 'ngx-gallery';
+import { AddFieldsComponent } from '../add-fields/add-fields.component';
 
 @Component({
   selector: 'app-edit-product',
@@ -13,6 +14,7 @@ export class EditProductComponent implements OnInit {
 
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
+  imagesActions: NgxGalleryAction[];
 
   categories = [];
   dropDowns;
@@ -41,6 +43,7 @@ export class EditProductComponent implements OnInit {
 
   ngOnInit() {
     this.galleryOptions = [
+      {},
       {
         width: '300px',
         height: '280px',
@@ -48,7 +51,7 @@ export class EditProductComponent implements OnInit {
         imageAnimation: NgxGalleryAnimation.Slide,
         preview: false,
         imageSize: NgxGalleryImageSize.Contain,
-        // imageActions: NgxGalleryAction[]
+        imageActions: [{ icon: 'fa fa-trash', onClick: this.deleteImage.bind(this), titleText: 'delete this image' }],
       },
       // max-width 800
       {
@@ -66,37 +69,13 @@ export class EditProductComponent implements OnInit {
         preview: false
       }
     ];
+    this.galleryImages = [...this.data.product.images];
+  }
 
-
-    this.galleryImages = this.data.product.images
-    console.log(this.data.product.images)
-    // this.galleryImages = [
-    //   {
-    //     small: "https://res.cloudinary.com/dwum3bngw/image/upload/c_scale,h_135,w_180/v1577967683/koopzettqg7ujg2q4ycs.jpg",
-    //     medium: "https://res.cloudinary.com/dwum3bngw/image/upload/c_scale,h_360,w_480/v1577967683/koopzettqg7ujg2q4ycs.jpg",
-    //     big: "https://res.cloudinary.com/dwum3bngw/image/upload/c_scale,h_720,w_960/v1577967683/koopzettqg7ujg2q4ycs.jpg"
-    //   },
-    //   {
-    //     small: "https://res.cloudinary.com/dwum3bngw/image/upload/c_scale,h_135,w_180/v1577967685/zexrs58vklkokbhmpv8v.jpg",
-    //     medium: "https://res.cloudinary.com/dwum3bngw/image/upload/c_scale,h_360,w_480/v1577967685/zexrs58vklkokbhmpv8v.jpg",
-    //     big: "https://res.cloudinary.com/dwum3bngw/image/upload/c_scale,h_720,w_960/v1577967685/zexrs58vklkokbhmpv8v.jpg"
-    //   },
-    //   {
-    //     small: 'https://lukasz-galka.github.io/ngx-gallery-demo/assets/img/3-small.jpeg',
-    //     medium: 'https://lukasz-galka.github.io/ngx-gallery-demo/assets/img/3-medium.jpeg',
-    //     big: 'https://lukasz-galka.github.io/ngx-gallery-demo/assets/img/3-big.jpeg'
-    //   },
-    //   {
-    //     small: 'https://lukasz-galka.github.io/ngx-gallery-demo/assets/img/4-small.jpeg',
-    //     medium: 'https://lukasz-galka.github.io/ngx-gallery-demo/assets/img/4-medium.jpeg',
-    //     big: 'https://lukasz-galka.github.io/ngx-gallery-demo/assets/img/4-big.jpeg'
-    //   },
-    //   {
-    //     small: 'https://lukasz-galka.github.io/ngx-gallery-demo/assets/img/5-small.jpeg',
-    //     medium: 'https://lukasz-galka.github.io/ngx-gallery-demo/assets/img/5-medium.jpeg',
-    //     big: 'https://lukasz-galka.github.io/ngx-gallery-demo/assets/img/5-big.jpeg'
-    //   }      
-    // ]
+  deleteImage(event, index): void {
+    console.log(event, index)
+    console.log(this.galleryImages)
+    this.galleryImages.splice(index, 1);
   }
 
   editProduct() {
@@ -108,16 +87,83 @@ export class EditProductComponent implements OnInit {
         formData.append('images', file.file, file.file.name);
       });
       formData.append('data', JSON.stringify(this.editForm.value))
-      this.appService.addProduct(formData).subscribe((res: any) => {
+      this.appService.updateProduct(this.data._id, formData).subscribe((res: any) => {
         console.log(res);
         this.closeDialog(res.data);
       })
     }
   }
 
+  addCategory() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '30%'
+    dialogConfig.height = '50%'
+
+    dialogConfig.data = {
+      type: 'category',
+      categories: this.data.categories
+    };
+
+    let dialogRef = this.dialog.open(AddFieldsComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(cat => {
+      if (cat) {
+        console.log('Added', cat.data)
+      }
+    });
+  }
+
+  addColor() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '25%'
+    dialogConfig.height = '35%'
+
+    dialogConfig.data = {
+      type: 'color',
+    };
+
+    let dialogRef = this.dialog.open(AddFieldsComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(col => {
+      if (col) {
+        this.dropDowns.colors.unshift(col.data);
+        this.appService.updateDropDowns({ colors: this.dropDowns.colors }, this.dropDowns._id).subscribe((res: any) => {
+          console.log(res)
+        })
+      }
+    });
+  }
+
+  addSize() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '25%'
+    dialogConfig.height = '35%'
+
+    dialogConfig.data = {
+      type: 'size',
+    };
+
+    let dialogRef = this.dialog.open(AddFieldsComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(size => {
+      if (size) {
+        this.dropDowns.sizes.unshift(size.data);
+        this.appService.updateDropDowns({ sizes: this.dropDowns.sizes }, this.dropDowns._id).subscribe((res: any) => {
+          console.log(res)
+        })
+        console.log('Added', size.data)
+      }
+    });
+  }
+
   closeDialog(data) {
     this.dialogRef.close({ event: 'close', data: data });
   }
 
-
+  close() {
+    this.dialogRef.close();
+  }
 }
