@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class AppService {
 
   baseUrl = 'https://maximaecommerceserver.herokuapp.com/api/'
+  localUrl = 'http://localhost:3000/api/'
   constructor(private http: HttpClient) { }
 
   getProdcuts() {

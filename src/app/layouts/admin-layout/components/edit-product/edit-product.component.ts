@@ -18,6 +18,8 @@ export class EditProductComponent implements OnInit {
 
   categories = [];
   dropDowns;
+  types = ['Normal', 'Featured', 'On Sale', 'Top Rated', 'New Arrivals']
+
   constructor(public dialogRef: MatDialogRef<EditProductComponent>,
     @Inject(MAT_DIALOG_DATA) public data, private appService: AppService, public dialog: MatDialog) {
     console.log(data)
@@ -38,7 +40,8 @@ export class EditProductComponent implements OnInit {
     description: new FormControl(this.data.product.description),
     availibilityCount: new FormControl(this.data.product.availibilityCount),
     weight: new FormControl(this.data.product.weight),
-    categoryId: new FormControl(this.data.product.categoryId._id)
+    categoryId: new FormControl(this.data.product.categoryId._id),
+    type: new FormControl(this.data.product.type)
   });
 
   ngOnInit() {

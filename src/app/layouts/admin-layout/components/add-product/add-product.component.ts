@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AppService } from '../../Services/app.service';
 import { AddFieldsComponent } from '../add-fields/add-fields.component';
 
@@ -13,6 +13,7 @@ export class AddProductComponent implements OnInit {
 
   categories = [];
   dropDowns;
+  types = ['Normal', 'Featured', 'On Sale', 'Top Rated', 'New Arrivals']
   constructor(public dialogRef: MatDialogRef<AddProductComponent>,
     @Inject(MAT_DIALOG_DATA) public data, private appService: AppService, public dialog: MatDialog) {
     console.log(data)
@@ -23,17 +24,18 @@ export class AddProductComponent implements OnInit {
   }
 
   addForm = new FormGroup({
-    images: new FormControl(''),
-    color: new FormControl(''),
-    size: new FormControl(''),
-    name: new FormControl(''),
-    oldPrice: new FormControl(''),
-    newPrice: new FormControl(''),
-    discount: new FormControl(''),
-    description: new FormControl(''),
-    availibilityCount: new FormControl(''),
-    weight: new FormControl(''),
-    categoryId: new FormControl('')
+    images: new FormControl('', Validators.required),
+    color: new FormControl('', Validators.required),
+    size: new FormControl('', Validators.required),
+    name: new FormControl('', Validators.required),
+    oldPrice: new FormControl('', Validators.required),
+    newPrice: new FormControl('', Validators.required),
+    discount: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+    availibilityCount: new FormControl('', Validators.required),
+    weight: new FormControl('', Validators.required),
+    categoryId: new FormControl('', Validators.required),
+    type: new FormControl('', Validators.required)
   });
 
   ngOnInit() {
