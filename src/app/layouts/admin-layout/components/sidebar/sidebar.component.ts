@@ -23,7 +23,6 @@ export class SidebarComponent implements OnInit {
 
   constructor(private appService: AppService) {
     this.appService.getCategories().subscribe((res: any) => {
-      console.log(res)
     })
    }
 

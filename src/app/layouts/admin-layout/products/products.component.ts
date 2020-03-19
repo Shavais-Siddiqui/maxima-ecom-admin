@@ -32,12 +32,10 @@ export class ProductsComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute, public appService: AppService, public dialog: MatDialog, private router: Router) {
     this.appService.getProdcuts().subscribe((res: any) => {
-      console.log(res)
       this.products = res.data;
     })
     this.appService.getCategories().subscribe((res: any) => {
       this.categories = res.data;
-      console.log(this.categories)
     })
   }
 
@@ -124,7 +122,6 @@ export class ProductsComponent implements OnInit {
     let dialogRef = this.dialog.open(AddProductComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(product => {
       if (product) {
-        console.log('Added 2', product.data)
         this.products.unshift(product.data)
         // this.router.navigate(['/products', product.id, product.name]);
       }
@@ -147,7 +144,6 @@ export class ProductsComponent implements OnInit {
     let dialogRef = this.dialog.open(EditProductComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(product => {
       if (product) {
-        console.log('Added 2', product.data)
         this.products.unshift(product.data)
       }
     });

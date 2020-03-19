@@ -22,9 +22,7 @@ export class EditProductComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<EditProductComponent>,
     @Inject(MAT_DIALOG_DATA) public data, private appService: AppService, public dialog: MatDialog) {
-    console.log(data)
     this.appService.getDropDowns().subscribe((res: any) => {
-      console.log(res.data[0])
       this.dropDowns = res.data[0];
     })
   }
@@ -76,22 +74,19 @@ export class EditProductComponent implements OnInit {
   }
 
   deleteImage(event, index): void {
-    console.log(event, index)
-    console.log(this.galleryImages)
     this.galleryImages.splice(index, 1);
   }
 
   editProduct() {
     if (this.editForm.valid) {
-      console.log(this.editForm.value)
+      let discountPrice = this.editForm.get('discount').value / 100 * this.editForm.get('oldPrice').value;
+      this.editForm.get('newPrice').setValue(this.editForm.get('oldPrice').value - discountPrice);
       const formData = new FormData();
       this.editForm.get('images').value.forEach(file => {
-        console.log(file)
         formData.append('images', file.file, file.file.name);
       });
       formData.append('data', JSON.stringify(this.editForm.value))
       this.appService.updateProduct(this.data._id, formData).subscribe((res: any) => {
-        console.log(res);
         this.closeDialog(res.data);
       })
     }
@@ -112,7 +107,6 @@ export class EditProductComponent implements OnInit {
     let dialogRef = this.dialog.open(AddFieldsComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(cat => {
       if (cat) {
-        console.log('Added', cat.data)
       }
     });
   }
@@ -133,7 +127,6 @@ export class EditProductComponent implements OnInit {
       if (col) {
         this.dropDowns.colors.unshift(col.data);
         this.appService.updateDropDowns({ colors: this.dropDowns.colors }, this.dropDowns._id).subscribe((res: any) => {
-          console.log(res)
         })
       }
     });
@@ -155,9 +148,7 @@ export class EditProductComponent implements OnInit {
       if (size) {
         this.dropDowns.sizes.unshift(size.data);
         this.appService.updateDropDowns({ sizes: this.dropDowns.sizes }, this.dropDowns._id).subscribe((res: any) => {
-          console.log(res)
         })
-        console.log('Added', size.data)
       }
     });
   }

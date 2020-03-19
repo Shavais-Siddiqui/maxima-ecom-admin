@@ -16,7 +16,6 @@ export class CategoryListComponent {
   }
 
   public ngDoCheck() {
-    // console.log(this.categories)
     if(this.categories && !this.mainCategories) {
       this.mainCategories = this.categories.filter(category => category.parentId == this.categoryParentId); 
     }

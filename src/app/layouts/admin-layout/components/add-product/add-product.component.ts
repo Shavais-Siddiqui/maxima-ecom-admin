@@ -16,9 +16,7 @@ export class AddProductComponent implements OnInit {
   types = ['Normal', 'Featured', 'On Sale', 'Top Rated', 'New Arrivals']
   constructor(public dialogRef: MatDialogRef<AddProductComponent>,
     @Inject(MAT_DIALOG_DATA) public data, private appService: AppService, public dialog: MatDialog) {
-    console.log(data)
     this.appService.getDropDowns().subscribe((res: any) => {
-      console.log(res.data[0])
       this.dropDowns = res.data[0];
     })
   }
@@ -29,7 +27,7 @@ export class AddProductComponent implements OnInit {
     size: new FormControl('', Validators.required),
     name: new FormControl('', Validators.required),
     oldPrice: new FormControl('', Validators.required),
-    newPrice: new FormControl('', Validators.required),
+    newPrice: new FormControl(''),
     discount: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     availibilityCount: new FormControl('', Validators.required),
@@ -43,19 +41,19 @@ export class AddProductComponent implements OnInit {
 
   addProduct() {
     if (this.addForm.valid) {
-      console.log(this.addForm.value)
+      let discountPrice = this.addForm.get('discount').value / 100 * this.addForm.get('oldPrice').value;
+      this.addForm.get('newPrice').setValue(this.addForm.get('oldPrice').value - discountPrice);
       const formData = new FormData();
       this.addForm.get('images').value.forEach(file => {
-        console.log(file)
         formData.append('images', file.file, file.file.name);
       });
       formData.append('data', JSON.stringify(this.addForm.value))
       this.appService.addProduct(formData).subscribe((res: any) => {
-        console.log(res);
         this.closeDialog(res.data);
       })
     }
   }
+
   addCategory() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
@@ -71,8 +69,6 @@ export class AddProductComponent implements OnInit {
     let dialogRef = this.dialog.open(AddFieldsComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(cat => {
       if (cat) {
-        console.log('Added', cat.data)
-
       }
     });
   }
@@ -93,7 +89,6 @@ export class AddProductComponent implements OnInit {
       if (col) {
         this.dropDowns.colors.unshift(col.data);
         this.appService.updateDropDowns({ colors: this.dropDowns.colors }, this.dropDowns._id).subscribe((res: any) => {
-          console.log(res)
         })
       }
     });
@@ -115,9 +110,7 @@ export class AddProductComponent implements OnInit {
       if (size) {
         this.dropDowns.sizes.unshift(size.data);
         this.appService.updateDropDowns({ sizes: this.dropDowns.sizes }, this.dropDowns._id).subscribe((res: any) => {
-          console.log(res)
         })
-        console.log('Added', size.data)
       }
     });
   }

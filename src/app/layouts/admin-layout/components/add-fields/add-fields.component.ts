@@ -12,7 +12,6 @@ export class AddFieldsComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<AddFieldsComponent>,
     @Inject(MAT_DIALOG_DATA) public data, private appService: AppService) {
-    console.log(data)
 
   }
   categoryForm = new FormGroup({
@@ -35,7 +34,6 @@ export class AddFieldsComponent implements OnInit {
   addcategory() {
     if (this.categoryForm.valid) {
       this.appService.addCategory(this.categoryForm.value).subscribe((res: any) => {
-        console.log(res.data)
         this.closeDialog(res.data);
       })
     }
